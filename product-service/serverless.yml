@@ -1,0 +1,30 @@
+service: product-service
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: eu-west-1
+
+package:
+  exclude:
+    - ./**
+  include:
+    - build/**
+    - mockData/**
+
+functions:
+  getProducts:
+    handler: build/bundle.getProducts
+    events:
+     - httpApi:
+         path: /products
+         method: get
+  getProduct:
+    handler: build/bundle.getProduct
+    events:
+     - httpApi:
+         path: /products/{productId}
+         method: get
