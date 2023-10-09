@@ -20,11 +20,11 @@ functions:
     handler: build/bundle.getProducts
     events:
      - httpApi:
-         path: /products
-         method: get
+        path: /products
+        method: get
   getProduct:
     handler: build/bundle.getProduct
     events:
      - httpApi:
-         path: /products/{productId}
-         method: get
+        path: /products/{productId}
+        method: get

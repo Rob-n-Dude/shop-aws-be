@@ -1,9 +1,4 @@
 'use strict';
 
-import { getProducts } from './handlers/getProducts.js'
-import { getProduct } from './handlers/getProduct.js';
-
-export {
-  getProducts,
-  getProduct,
-}
+export * from './handlers/getProducts.js'
+export * from './handlers/getProduct.js';
