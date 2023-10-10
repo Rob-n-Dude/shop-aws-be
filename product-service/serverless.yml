@@ -22,9 +22,11 @@ functions:
      - httpApi:
         path: /products
         method: get
+        cors: true
   getProduct:
     handler: build/bundle.getProduct
     events:
      - httpApi:
         path: /products/{productId}
         method: get
+        cors: true

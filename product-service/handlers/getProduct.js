@@ -1,4 +1,4 @@
-import { getMockData } from "../helpers.js"
+import { applyHeaders, getMockData } from "../helpers"
 
 const getProduct = async (event) => {
     const { productId } = event.pathParameters
@@ -7,16 +7,16 @@ const getProduct = async (event) => {
     const productData = data.find((d) => d.id === productId)
 
     if (!productData) {
-        return {
+        return applyHeaders({
             statusCode: 404,
             body: 'Not Found',
-        }
+        }) 
     }
 
-    return {
+    return applyHeaders({
         statusCode: 200,
-        body: JSON.stringify(productData)
-    }
+        body: JSON.stringify(productData),
+    })
 }
 
 export {

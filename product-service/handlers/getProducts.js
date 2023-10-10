@@ -1,11 +1,13 @@
 'use strict';
 
-import { getMockData } from '../helpers.js'
+import { applyHeaders } from '../helpers/applyHeaders.js';
+import { getMockData } from '../helpers/getMockData.js'
 
 export const getProducts = async () => {
   const data = await getMockData()
-  return {
+
+  return applyHeaders({
     statusCode: 200,
     body: JSON.stringify(data),
-  };
+  })
 };
