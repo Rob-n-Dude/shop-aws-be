@@ -1,10 +1,12 @@
 'use strict';
 
+import { dbConnector } from '../db/DBConnector.js';
 import { applyHeaders } from '../helpers/applyHeaders.js';
-import { getMockData } from '../helpers/getMockData.js'
 
 export const getProducts = async () => {
-  const data = await getMockData()
+  console.log('Receive get all products request')
+
+  const data = await dbConnector.getAll()
 
   return applyHeaders({
     statusCode: 200,

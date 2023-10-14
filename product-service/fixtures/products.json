@@ -1,0 +1,74 @@
+[
+    {
+        "id": "1",
+        "title": "A Game of Thrones",
+        "description": "George J.J. Martin",
+        "price": 10
+    },
+    {
+        "id": "2",
+        "title": "A Clash of Kings",
+        "description": "George J.J. Martin",
+        "price": 12
+    },
+    {
+        "id": "3",
+        "title": "A Storm of Swords",
+        "description": "George J.J. Martin",
+        "price": 14
+    },
+    {
+        "id": "4",
+        "title": "A Feast for Crows",
+        "description": "George J.J. Martin",
+        "price": 15
+    },
+    {
+        "id": "5",
+        "title": "A Dance with Dragons",
+        "description": "George J.J. Martin",
+        "price": 11
+    },
+    {
+        "id": "6",
+        "title": "Philosopher's Stone",
+        "description": "J. K. Rowling",
+        "price": 13
+    },
+    {
+        "id": "7",
+        "title": "Chamber of Secrets",
+        "description": "J. K. Rowling",
+        "price": 11
+    },
+    {
+        "id": "8",
+        "title": "Prisoner of Azkaban",
+        "description": "J. K. Rowling",
+        "price": 3
+    },
+    {
+        "id": "9",
+        "title": "Goblet of Fire",
+        "description": "J. K. Rowling",
+        "price": 24
+    },
+    {
+        "id": "10",
+        "title": "Order of the Phoenix",
+        "description": "J. K. Rowling",
+        "price": 41
+    },
+    {
+        "id": "11",
+        "title": "Half-Blood Prince",
+        "description": "J. K. Rowling",
+        "price": 20
+    },
+    {
+        "id": "12",
+        "title": "Deathly Hallows",
+        "description": "J. K. Rowling",
+        "price": 10
+    }
+]
