@@ -20,13 +20,30 @@ class Product {
 
     static isValid (product) {
         console.log('validating Product data:', product)
-        return Object.entries(product).every(([key, value]) => (
-                Object.values(PRODUCT_FIELD).includes(key) &&
-                typeof value === PRODUCT_TYPE_FIELD[key]
+        return (
+            ( 
+                PRODUCT_FIELD.DESCRIPTION in product &&
+                PRODUCT_FIELD.PRICE in product &&
+                PRODUCT_FIELD.TITLE in product
+            ) && (
+                typeof product[PRODUCT_FIELD.DESCRIPTION] === PRODUCT_TYPE_FIELD[PRODUCT_FIELD.DESCRIPTION] &&
+                typeof product[PRODUCT_FIELD.TITLE] === PRODUCT_TYPE_FIELD[PRODUCT_FIELD.TITLE] &&
+                typeof product[PRODUCT_FIELD.PRICE] === PRODUCT_TYPE_FIELD[PRODUCT_FIELD.PRICE]
             )
         )
     }
 }
+
+const data = {
+    id: '697f178a-69a8-4e08-86b1-ec7247d53d3b',
+    title: 'custom modified',
+    description: '111',
+    price: 90
+  }
+
+  const productData = new Product(data)
+
+  console.log(Product.isValid(productData))
 
 export {
     Product

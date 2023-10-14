@@ -52,9 +52,8 @@ class DBConnector extends DBClient {
     }
 
     async createItem (data) {
-        const id = uuid()
+        data.id = uuid()
 
-        data.id = id
         console.log('Attempt to create Product Item using transaction:', data)
 
         const productData = new Product(data)

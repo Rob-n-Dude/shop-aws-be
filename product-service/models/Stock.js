@@ -15,10 +15,10 @@ class Stock {
 
     static isValid (stock) {
         console.log('validating Stock data:', stock)
-        return Object.entries(stock).every(([key, value]) => (
-            Object.values(STOCK_FIELD).includes(key) &&
-            typeof value === STOCK_FIELD_TYPE[key]
-        ))
+        return (
+            STOCK_FIELD.COUNT in stock &&
+            typeof stock[STOCK_FIELD.COUNT] === STOCK_FIELD_TYPE[STOCK_FIELD.COUNT]
+        )
     }
 }
 
