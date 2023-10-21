@@ -1,10 +1,12 @@
-import { applyHeaders, getMockData } from "../helpers"
+import { applyHeaders } from "../helpers"
+import { dbConnector } from "../db/DBConnector"
 
 const getProduct = async (event) => {
     const { productId } = event.pathParameters
 
-    const data = await getMockData()
-    const productData = data.find((d) => d.id === productId)
+    console.log('Receive get product request, productId:', productId)
+
+    const productData = await dbConnector.getById(productId)
 
     if (!productData) {
         return applyHeaders({

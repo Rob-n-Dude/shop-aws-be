@@ -7,13 +7,29 @@ provider:
   runtime: nodejs18.x
   stage: dev
   region: eu-west-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource:
+            - {"Fn::GetAtt": ["ProductsTable", "Arn"]}
+            - {"Fn::GetAtt": ["StockTable", "Arn"]}
+  httpApi:
+    cors:
+      allowedOrigins:
+        - '*'
 
 package:
   exclude:
     - ./**
   include:
     - build/**
-    - mockData/**
+
+custom:
+  prune:
+    automatic: true
 
 functions:
   getProducts:
@@ -22,11 +38,46 @@ functions:
      - httpApi:
         path: /products
         method: get
-        cors: true
   getProduct:
     handler: build/bundle.getProduct
     events:
      - httpApi:
         path: /products/{productId}
         method: get
-        cors: true
+  createProduct:
+    handler: build/bundle.createProduct
+    events:
+     - httpApi:
+        path: /products
+        method: post
+
+resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ProductsTable
+      DependsOn: StockTable
+      DeletionPolicy: Retain
+
+    StockTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: StockTable
+
+plugins:
+  - serverless-prune-versions

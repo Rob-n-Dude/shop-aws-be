@@ -7,7 +7,9 @@
   "scripts": {
     "build": "node esbuild.config.js",
     "deploy": "sls deploy",
+    "load:fixtures": "node ./fixtures/loadFixtures.js",
     "build:deploy": "yarn build && yarn deploy",
+    "build:deploy:fixtures": "yarn build:deploy && yarn load:fixtures",
     "test": "jest --config ./config/jest.config.js "
   },
   "author": "Egor Semenov",
@@ -18,5 +20,11 @@
     "esbuild": "^0.19.4",
     "esbuild-jest": "^0.5.0",
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.427.0",
+    "@aws-sdk/util-dynamodb": "^3.428.0",
+    "serverless-prune-versions": "^1.0.4",
+    "uuid": "^9.0.1"
   }
 }
