@@ -1,0 +1,25 @@
+{
+  "name": "import-service",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.433.0",
+    "@aws-sdk/s3-request-presigner": "^3.433.0",
+    "csv-parser": "^3.0.0",
+    "serverless-prune-versions": "^1.0.4"
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "deploy": "sls deploy",
+    "build:deploy": "yarn build && yarn deploy",
+    "test": "jest --config ./config/jest.config.js "
+  },
+  "devDependencies": {
+    "aws-sdk-client-mock": "^3.0.0",
+    "esbuild": "^0.19.5",
+    "esbuild-jest": "^0.5.0",
+    "jest": "^29.7.0"
+  }
+}

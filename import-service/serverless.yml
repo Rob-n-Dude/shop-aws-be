@@ -1,0 +1,54 @@
+service: import-service
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: eu-west-1
+  httpApi:
+    cors:
+      allowedOrigins:
+        - '*'
+  iamRoleStatements:
+    - Effect: Allow
+      Action: s3:ListBucket
+      Resource:
+        - arn:aws:s3:::${self:custom.s3ImportBucketName}
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource:  
+        - arn:aws:s3:::${self:custom.s3ImportBucketName}/*
+
+package:
+  exclude:
+    - ./**
+  include:
+    - build/**
+
+custom:
+  prune:
+    automatic: true
+  s3ImportBucketName: egor-semenov-import-service-bucket
+
+functions:
+  importProductsFile:
+    handler: build/bundle.importProductsFile
+    events:
+     - httpApi:
+        path: /import
+        method: get
+  importFileParser:
+    handler: build/bundle.importFileParser
+    events:
+     - s3:
+        bucket: ${self:custom.s3ImportBucketName}
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: uploaded/
+        existing: true
+
+plugins:
+  - serverless-prune-versions
