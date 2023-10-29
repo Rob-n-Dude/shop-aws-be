@@ -96,17 +96,6 @@ class DBConnector extends DBClient {
 
 const instance = new DBConnector()
 
-const fn = async (data) => {
-    const mockData = {
-        title: "title",
-        description: "desc",
-        price: 12,
-        count: 1
-    }
-    await instance.createItem(mockData)
-}
-
-fn()
 export { 
     instance as dbConnector
 }

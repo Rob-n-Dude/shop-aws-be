@@ -9,7 +9,7 @@ const STOCK_FIELD_TYPE = {
 
 class Stock {
     constructor (productData) {
-        this.count = productData.count
+        this.count = Number(productData.count)
         productData.id && (this.productId = productData.id)
     }
 

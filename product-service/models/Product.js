@@ -15,7 +15,7 @@ class Product {
         productData.id && (this.id = productData.id)
         this.title = productData.title
         this.description = productData.description
-        this.price = productData.price
+        this.price = Number(productData.price)
     }
 
     static isValid (product) {

@@ -16,10 +16,26 @@ provider:
           Resource:
             - {"Fn::GetAtt": ["ProductsTable", "Arn"]}
             - {"Fn::GetAtt": ["StockTable", "Arn"]}
+        - Effect: Allow
+          Action:
+            - sqs:*
+          Resource:
+            - {"Fn::GetAtt": ["CatalogItemsQueue", "Arn"]}
+        - Effect: Allow
+          Action:
+            - sns:*
+          Resource:
+            - {"Ref": "CreateProductTopic"}
+
   httpApi:
     cors:
       allowedOrigins:
         - '*'
+  environment:
+    SQS_URL:
+      Ref: CatalogItemsQueue
+    SNS_ARN: 
+      Ref: CreateProductTopic
 
 package:
   exclude:
@@ -50,6 +66,15 @@ functions:
      - httpApi:
         path: /products
         method: post
+  catalogBatchProcess:
+    handler: build/bundle.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - CatalogItemsQueue
+              - Arn
 
 resources:
   Resources:
@@ -78,6 +103,44 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: StockTable
+    
+    CatalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: CatalogItemsQueue
+
+    CreateProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: CreateProductTopic 
+
+    EmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        TopicArn:
+          Ref: CreateProductTopic
+        Endpoint: egor_semenov@epam.com
+   
+    FilteredEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        TopicArn:
+          Ref: CreateProductTopic
+        Endpoint: test.subscription.sns@yandex.by
+        FilterPolicy:
+          price:
+            - 10
+
+outputs:
+  CatalogItemsQueueArn:
+    Value:
+      Fn::GetAtt:
+        - CatalogItemsQueue
+        - Arn
+    Export:
+      Name: CatalogItemsQueueArn
 
 plugins:
   - serverless-prune-versions
