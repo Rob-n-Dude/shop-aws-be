@@ -25,9 +25,6 @@ provider:
       Action: sqs:*
       Resource: 
         - arn:aws:sqs:eu-west-1:640385011454:CatalogItemsQueue
-        # - arn:aws:sqs:::${self:custom.SQS_NAME}/*
-        # - ${cf:product-service.${self:custom.CatalogItemsQueue}}
-        # - Fn::ImportValue: CatalogItemsQueueArn
 
 package:
   exclude:
