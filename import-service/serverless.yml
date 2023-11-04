@@ -21,6 +21,10 @@ provider:
         - s3:*
       Resource:  
         - arn:aws:s3:::${self:custom.s3ImportBucketName}/*
+    - Effect: Allow
+      Action: sqs:*
+      Resource: 
+        - arn:aws:sqs:eu-west-1:640385011454:CatalogItemsQueue
 
 package:
   exclude:
@@ -32,6 +36,7 @@ custom:
   prune:
     automatic: true
   s3ImportBucketName: egor-semenov-import-service-bucket
+  SQS_NAME: CatalogItemsQueue
 
 functions:
   importProductsFile:
@@ -42,6 +47,8 @@ functions:
         method: get
   importFileParser:
     handler: build/bundle.importFileParser
+    environment:
+      SQS_NAME: ${self:custom.SQS_NAME}
     events:
      - s3:
         bucket: ${self:custom.s3ImportBucketName}
