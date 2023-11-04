@@ -6,15 +6,18 @@ import {
 } from "@aws-sdk/client-s3"
 import csv from 'csv-parser'
 import { uploadFolder } from "./importProductsFile"
+import {
+    SQSClient,
+    SendMessageCommand,
+    GetQueueUrlCommand
+} from '@aws-sdk/client-sqs'
 
 const parser = csv({
     separator: ',',
 })
 
-parser.on('data', (data) => {
-    console.log(data)
-})
 const s3Client = new S3Client({region: 'eu-west-1'})
+const sqsClient = new SQSClient({region: 'eu-west-1'})
 
 const importFileParser = async (event) => {
     console.log('event', event)
@@ -36,6 +39,22 @@ const importFileParser = async (event) => {
     try{
         console.log('Receiving reading stream from S3')
         const stream = await s3Client.send(getCommand)
+        const queueName = "CatalogItemsQueue";
+        const { QueueUrl } = await sqsClient.send(new GetQueueUrlCommand({
+            QueueName: process.env.SQS_NAME,
+        }))        
+
+        parser.on('data', (data) => {
+            sqsClient.send(
+                new SendMessageCommand({
+                    QueueUrl: QueueUrl,
+                    MessageBody: JSON.stringify(data),
+                }),
+                () => {
+                    console.log(`Message Sent, data:${JSON.stringify(data)}, to ${process.env.SQS_NAME}`)
+                }
+            )
+        })
         
         console.log('Stream Received')
         stream.Body.pipe(parser)
