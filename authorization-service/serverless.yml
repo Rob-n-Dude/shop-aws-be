@@ -1,0 +1,28 @@
+service: authorization-service
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: eu-west-1
+ 
+package:
+  exclude:
+    - ./**
+  include:
+    - build/**
+
+custom:
+  prune:
+    automatic: true
+
+functions:
+  basicAuthorizer:
+    handler: build/bundle.basicAuthorizer
+
+
+plugins:
+  - serverless-prune-versions
+  - serverless-dotenv-plugin
