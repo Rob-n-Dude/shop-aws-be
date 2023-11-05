@@ -1,0 +1,17 @@
+{
+  "name": "authorization-service",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "esbuild": "^0.19.5",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-prune-versions": "^1.0.4"
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "deploy": "sls deploy",
+    "build:deploy": "yarn build && yarn deploy"
+  }
+}
